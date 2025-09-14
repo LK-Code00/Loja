@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Listar Usuários</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    .top-right-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .top-right-button:hover {
+      background-color: #0056b3;
+    }
+    .button-spacing {
+      margin-right: 20px; /* Adiciona 20px de espaço à direita do botão "Consultar" */
+    }
+  </style>
+</head>
+<body>
+  <h1>Listar Usuários</h1>
+  <button id="btn" class="top-right-button button-spacing">Consultar</button>
+  <button id="adminBtn" class="top-right-button" onclick="admin()">Admin</button>
+
+  <table id="tabela"></table>
+  <pre id="out"></pre>
+
+  <script>
+    document.getElementById("btn").onclick = async () => {
+      const tabela = document.getElementById("tabela");
+      const out = document.getElementById("out");
+      out.textContent = "";
+      tabela.innerHTML = "";
+
+      try {
+        const res = await fetch("https://jovemtech.criesites.shop/api/consultaLogin.php");
+        const data = await res.json();
+
+        if (!data.ok) {
+          out.textContent = "Erro: " + data.error;
+          return;
+        }
+
+        if (data.data.length === 0) {
+          out.textContent = "Nenhum usuário encontrado.";
+          return;
+        }
+
+        // Cabeçalho da tabela
+        tabela.innerHTML = `
+          <tr>
+            <th>ID</th>
+            <th>Login</th>
+            <th>Perfil</th>
+            <th>Senha</th>
+            <th>Criado em</th>
+            <th>Ações</th>
+          </tr>
+        `;
+
+        // Preenche os dados
+        data.data.forEach(u => {
+          tabela.innerHTML += `
+            <tr>
+              <td>${u.idLogin}</td>
+              <td>${u.login}</td>
+              <td>${u.perfil}</td>
+              <td>${u.senha}</td>
+              <td>${u.data_cadastro}</td>
+              <td>
+                <button onclick="editUser(${u.idLogin})">Editar</button>
+                <button onclick="deleteUser(${u.idLogin})">Excluir</button>
+              </td>
+            </tr>
+          `;
+        });
+
+      } catch (err) {
+        out.textContent = "Falha na requisição: " + err.message;
+      }
+    };
+
+    function admin() {
+        window.location.href = "admin.html";
+    }
+
+    function editUser(id) {
+      alert(`Editando usuário com ID: ${id}`);
+    }
+
+    function deleteUser(id) {
+      if (confirm(`Tem certeza que deseja excluir o usuário com ID: ${id}?`)) {
+        alert(`Usuário com ID ${id} excluído com sucesso.`);
+      }
+    }
+  </script>
+</body>
+</html>

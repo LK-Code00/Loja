@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo</title>
+ <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #0d47a1, #1976d2);
+      margin: 0;
+      padding: 0;
+      color: #fff;
+    }
+
+    header {
+      background-color: #0d47a1;
+      padding: 15px;
+      text-align: center;
+      color: white;
+      font-size: 1.8em;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    .container {
+      width: 90%;
+      margin: 30px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .product {
+      background: white;
+      color: #333;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .product img {
+      max-width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .product:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .product h3 {
+      margin: 10px 0;
+      color: #0d47a1;
+    }
+
+    .product p {
+      margin: 5px 0;
+      font-weight: bold;
+    }
+
+    .product button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .product button:hover {
+      background: #0d47a1;
+    }
+  </style>
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Painel Administrativo</h1>
+        <h2>Gerenciar Produtos</h2>
+        <div class="product">
+            <img src="https://cdn.dooca.store/1841/products/pc-gamer-monstro-site-1_620x620+fill_ffffff.jpg?v=1690387165" alt="PC">
+            <h3>PC Gamer</h3>
+            <p>Preço: R$ 5.000,00</p>
+            <div class="admin-actions">
+                <button onclick="editProduct('PC Gamer', 'pc.jpg', 5000)">Editar</button>
+            </div>
+        </div>
+        <div class="product">
+            <img src="https://m.media-amazon.com/images/I/51rPU0jDc0L._AC_SX679_.jpg" alt="Celular">
+            <h3>Smartphone</h3>
+            <p>Preço: R$ 2.500,00</p>
+            <div class="admin-actions">
+                <button onclick="editProduct('Smartphone', 'celular.jpg', 2500)">Editar</button>
+            </div>
+        </div>
+        <div class="product">
+            <img src="https://m.media-amazon.com/images/I/51xUXDpOifL._AC_SX679_.jpg" alt="MacBook">
+            <h3>MacBook</h3>
+            <p>Preço: R$ 3.000,00</p>
+            <div class="admin-actions">
+                <button onclick="editProduct('Geladeira Inverter', 'geladeira.jpg', 3000)">Editar</button>
+            </div>
+        </div>
+        <div class="product">
+            <img src="https://m.media-amazon.com/images/I/51e+8Wdax1L._AC_SX679_.jpg" alt="Notebook">
+            <h3>Notebook Acer Nitro V15</h3>
+            <p>Preço: R$ 4.000,00</p>
+            <div class="admin-actions">
+                <button onclick="editProduct('Notebook Ultrabook', 'notebook.jpg', 4000)">Editar</button>
+            </div>
+        </div>
+        <button class="top-right-button" onclick="consultarUsuarios()">Consultar Usuários</button>
+        <script>
+            function editProduct(name, image, price) {
+                alert(`Editando produto: ${name}\nImagem: ${image}\nPreço: R$${price},00`);
+            }
+            function consultarUsuarios() {
+                window.location.href = "consultarUsuarios.html";
+            }
+        </script>
+    </div>
+</body>
+</html>

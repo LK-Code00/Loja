@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #0d47a1, #1976d2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: white;
+    }
+    .login-container {
+      background: white;
+      color: #333;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 300px;
+    }
+    h1 {
+      color: #0d47a1;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      text-align: left;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      background: #1976d2;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0d47a1;
+    }
+    a {
+      display: block;
+      margin-top: 15px;
+      color: #1976d2;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Login</h1>
+    <form id="formLogin">
+      <label>Login:</label>
+      <input type="text" id="login">
+      <label>Senha:</label>
+      <input type="password" id="senha">
+      <button type="reset">Limpar</button>
+      <button type="button" id="btnLogin">Entrar</button>
+    </form>
+    <pre id="out"></pre>
+    <a href="CadastrarLogin.html">Não tenho Cadastro?</a>
+  </div>
+
+<script>
+document.getElementById("btnLogin").onclick = async (e) => {
+  e.preventDefault();
+  const login = document.getElementById("login").value.trim();
+  const senha = document.getElementById("senha").value;
+  const out = document.getElementById("out");
+  out.textContent = "";
+  if (!login || !senha) {
+    out.textContent = "Preencha login e senha.";
+    return;
+  }
+  try {
+    const res = await fetch("https://jovemtech.criesites.shop/api/login.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ login, senha })
+    });
+    const data = await res.json();
+    if (!data.ok) {
+      out.textContent = "Erro: " + (data.error || "Resposta inesperada do servidor");
+      return;
+    }
+    sessionStorage.setItem("perfil", data.user.perfil);
+    if (data.user.perfil.toLowerCase() === "admin") {
+      window.location.href = "admin.html";
+    } else {
+      window.location.href = "user.html";
+    }
+  } catch (err) {
+    out.textContent = "Falha na requisição: " + err.message;
+  }
+};
+</script>
+</body>
+</html>
